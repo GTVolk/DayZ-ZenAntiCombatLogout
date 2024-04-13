@@ -25,7 +25,7 @@ modded class Weapon_Base
 			PlayerBase player = PlayerBase.Cast(GetHierarchyRootPlayer());
 			if (player)
 			{
-				player.SetCombatLogTimer();
+				player.SetCombatLogTimer(player, null);
 			}
 		}
 		return;
@@ -112,7 +112,7 @@ modded class Weapon_Base
 					 //END DEBUG */ 
 
 					// Skip any objects that are not human
-					if (!results[i].obj.IsMan() && !res.parent.IsMan())
+					if (results[i].obj && !results[i].obj.IsMan() && !res.parent.IsMan())
 						continue;
 
 					PlayerBase otherPlayer = PlayerBase.Cast(results[i].obj);
@@ -149,11 +149,6 @@ modded class Weapon_Base
 				}
 			}
 		}
-
-		// Not sure if this is necessary but doesn't seem to break anything, can't hurt to cover memory leaks considering how many rounds certain guns can fire
-		delete rayInput;
-		delete results;
-		delete informedPlayers;
 	}
 
 	// Reset RPC timer
